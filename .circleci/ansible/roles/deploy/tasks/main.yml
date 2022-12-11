@@ -1,0 +1,42 @@
+- name: Copying backend artifact
+  become: true 
+  copy:
+    src: ../../udapeople-backend.tar.gz
+    dest: /home/ec2-user/udapeople-backend.tar.gz
+    backup: yes
+
+- name: make project dir
+  become: true 
+  shell: mkdir /home/ec2-user/udapeople-backend 
+
+- name: Unzipping backend artifact
+  become: true 
+  unarchive:
+    src: /home/ec2-user/udapeople-backend.tar.gz
+    dest: /home/ec2-user/udapeople-backend
+    remote_src: yes
+
+- name: Set environment vars
+  become: true
+  shell: |
+    cd /home/ec2-user/udapeople-backend
+    touch .env
+    echo "NODE_ENV=local" >> .env
+    echo "VERSION=1" >> .env
+    echo "TYPEORM_CONNECTION="{{ lookup('env', 'TYPEORM_CONNECTION')}}"" >> .env
+    echo "TYPEORM_MIGRATIONS_DIR="{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"" >> .env
+    echo "TYPEORM_ENTITIES="{{ lookup('env', 'TYPEORM_ENTITIES')}}"" >> .env
+    echo "TYPEORM_MIGRATIONS="{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"" >> .env
+    echo "TYPEORM_HOST="{{ lookup('env', 'TYPEORM_HOST')}}"" >> .env
+    echo "TYPEORM_PORT=5432" >> .env >> .env
+    echo "TYPEORM_USERNAME="{{ lookup('env', 'TYPEORM_USERNAME')}}"" >> .env
+    echo "TYPEORM_PASSWORD="{{ lookup('env', 'TYPEORM_PASSWORD')}}"" >> .env
+    echo "TYPEORM_DATABASE="{{ lookup('env', 'TYPEORM_DATABASE')}}"" >> .env
+
+- name: Starting backend
+  become_user: ec2-user
+  shell: |
+    cd /home/ec2-user/udapeople-backend
+    npm install
+    pm2 stop default
+    pm2 start npm -- start
