@@ -292,13 +292,12 @@ jobs:
 
   smoke-test:
     docker:
-      - image: alpine:latest 
+      - image: python:3.7-alpine3.11 
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            apk add --update python3
             apk add --update npm
             apk add --update nodejs
             apk add --update curl
