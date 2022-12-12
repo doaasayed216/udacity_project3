@@ -1,0 +1,5 @@
+[URL01] https://github.com/doaasayed216/udacity_project3.git
+[URL02] http://udapeople-67c3912.s3-website-us-east-1.amazonaws.com
+[URL03] https://d3fn87wsyvcsj9.cloudfront.net
+[URL04] http://34.230.186.169:3030/api/status
+[URL05] http://52.201.126.67:9090/targets
